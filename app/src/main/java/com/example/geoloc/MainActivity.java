@@ -9,17 +9,25 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+    Button btn1, btn2;
     TextView textView;
     private static final long MIN_TIME = 10000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        btn1=findViewById(R.id.btnPicoyPlaca);
+        btn2=findViewById(R.id.btnClima);
+
          textView = findViewById(R.id.textView);
 
          if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
@@ -54,5 +62,15 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
         }
+    }
+
+    public void browser1(View view) {
+        Intent browserIntent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.pyphoy.com/medellin"));
+        startActivity(browserIntent);
+    }
+
+    public void browser2(View view) {
+        Intent browserIntent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.clima.com/colombia/antioquia/medellin"));
+        startActivity(browserIntent);
     }
 }
