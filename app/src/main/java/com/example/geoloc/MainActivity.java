@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         }
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,MIN_TIME,0,local);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,MIN_TIME,0,local);
-        textView.setText("Localizacion Agregada");
+
     }
     public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults){
         if(requestCode==1000){
