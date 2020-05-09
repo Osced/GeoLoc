@@ -1,6 +1,7 @@
 package com.example.geoloc;
 
-import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +14,16 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class FragmentMaps extends SupportMapFragment implements OnMapReadyCallback {
-    double lat,lng;
+import java.util.Objects;
+
+public class FragmentMaps extends SupportMapFragment implements OnMapReadyCallback,
+        GoogleMap.OnMapLongClickListener {
+    private Marker puntoInicial;
+    private Marker puntoFinal;
+    private GoogleMap googleMap;
     private LatLng camara1 = new LatLng(6.22, -75.576640273);
     private LatLng camara2 = new LatLng(6.20683606, -75.586204166);
     private LatLng camara3 = new LatLng(6.207424, -75.589221);
@@ -93,31 +100,36 @@ public class FragmentMaps extends SupportMapFragment implements OnMapReadyCallba
     private  LatLng camara74 = new LatLng(6.259756001, -75.582788);
     private  LatLng camara75 = new LatLng(6.278924001, -75.644719);
     private  LatLng camara76 = new LatLng(6.196556576, -75.585255876);
+    private Location location;
 
-
-    public FragmentMaps(){}
+    public FragmentMaps() { }
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
         View rootView = super.onCreateView(layoutInflater, viewGroup, bundle);
-        if(getArguments() != null){
-                this.lat = getArguments().getDouble("lat");
-                this.lng = getArguments().getDouble("lng");
-        }
+        System.out.println("Esto es una prueba 2");
+        System.out.println(bundle);
+        System.out.println(getArguments());
         getMapAsync(this);
         return rootView;
     }
 
+    public void setPuntoInicial(Location location) {
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        if (puntoInicial != null) {
+            puntoInicial.setPosition(latLng);
+        } else if (googleMap != null) {
+            puntoInicial = googleMap.addMarker(new MarkerOptions().position(latLng));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+        }
+    }
+
     @Override
-
     public void onMapReady(GoogleMap googleMap) {
-        LatLng latLng = new LatLng(lat,lng);
-
-        float zoom = 17;
-
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom));
+        this.googleMap = googleMap;
+        System.out.println("Creando mapa");
+        this.googleMap.setOnMapLongClickListener(this);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-        googleMap.addMarker(new MarkerOptions().position(latLng));
         UiSettings settings = googleMap.getUiSettings();
         settings.setZoomControlsEnabled(true);
         googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)).position(camara1));
@@ -194,5 +206,10 @@ public class FragmentMaps extends SupportMapFragment implements OnMapReadyCallba
         googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)).position(camara74));
         googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)).position(camara75));
         googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)).position(camara76));
-      }
+    }
+
+    @Override
+    public void onMapLongClick(LatLng point) {
+        googleMap.addMarker(new MarkerOptions().position(point));
+    }
 }

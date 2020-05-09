@@ -15,6 +15,7 @@ import static android.content.ContentValues.TAG;
 public class Localizacion implements LocationListener {
     MainActivity mainActivity;
     TextView textView;
+    private FragmentMaps fragment;
 
     public MainActivity getMainActivity(){
         return mainActivity;
@@ -22,23 +23,23 @@ public class Localizacion implements LocationListener {
     public void setMainActivity(MainActivity mainActivity,TextView textView){
         this.mainActivity = mainActivity;
         this.textView = textView;
+        this.fragment = iniciarMapa();
     }
-    @Override
-    public void onLocationChanged(Location location) {
-        mapa(location.getLatitude(),location.getLongitude());
-    }
-    public void mapa(double lat, double lng){
-        FragmentMaps fragment = new FragmentMaps();
-        Bundle bundle = new Bundle();
-        bundle.putDouble("lat",new Double(lat));
-        bundle.putDouble("lng",new Double(lng));
-        fragment.setArguments(bundle);
 
+    public FragmentMaps iniciarMapa() {
+        FragmentMaps fragment = new FragmentMaps();
         FragmentManager fragmentManager = getMainActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction= fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment,fragment,null);
         fragmentTransaction.commit();
+        return fragment;
     }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        fragment.setPuntoInicial(location);
+    }
+
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
         switch (status){
