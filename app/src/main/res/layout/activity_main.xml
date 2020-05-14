@@ -9,7 +9,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="-34dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <TextView
             android:id="@+id/textView"
@@ -59,8 +61,8 @@
         <fragment
             android:id="@+id/fragment"
             android:name="com.example.geoloc.FragmentMaps"
-            android:layout_width="416dp"
-            android:layout_height="582dp"
+            android:layout_width="463dp"
+            android:layout_height="433dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp" />
