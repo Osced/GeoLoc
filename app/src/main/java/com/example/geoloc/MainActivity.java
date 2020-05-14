@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -25,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btn1=findViewById(R.id.btnPicoyPlaca);
-        btn2=findViewById(R.id.btnClima);
+        btn1=findViewById(R.id.btnIniciar);
+        btn2=findViewById(R.id.btnSalir);
 
          textView = findViewById(R.id.textView);
 
@@ -64,9 +63,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void browser1(View view) {
-        Intent browserIntent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.pyphoy.com/medellin"));
-        startActivity(browserIntent);
+    public void salir(View view) {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     public void browser2(View view) {
